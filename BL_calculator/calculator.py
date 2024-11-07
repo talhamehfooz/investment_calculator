@@ -77,5 +77,9 @@ with col2:
     if st.button("Email Results"):
         st.write("Email feature coming soon!")  # Placeholder for email functionality
 with col3:
+    # Reset fields when "Start New Calculation" is clicked
     if st.button("Start New Calculation"):
-        st.experimental_set_query_params()  # Clear query parameters to refresh page
+        st.session_state.plan = list(investment_plans.keys())[0]
+        st.session_state.investment_amount = 0.0
+        st.session_state.chosen_profit_rate = investment_plans[st.session_state.plan]["profit_range"][0]
+        st.experimental_rerun()  # Refresh the app to show reset values
