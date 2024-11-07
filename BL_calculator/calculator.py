@@ -32,11 +32,11 @@ def calculate_investment(plan, investment_amount, chosen_profit_rate):
 # Streamlit layout settings
 st.title("Investment Calculator")
 
-# Function to reset the input fields by clearing session state
-def reset_calculation():
-    st.session_state["plan"] = list(investment_plans.keys())[0]
-    st.session_state["investment_amount"] = 0.0
-    st.session_state["chosen_profit_rate"] = investment_plans[st.session_state["plan"]]["profit_range"][0]
+# Set default values only on initial load
+if "plan" not in st.session_state:
+    st.session_state.plan = list(investment_plans.keys())[0]
+    st.session_state.investment_amount = 0.0
+    st.session_state.chosen_profit_rate = investment_plans[st.session_state.plan]["profit_range"][0]
 
 # Step 1: Choose investment plan
 st.subheader("Step 1: Choose Your Investment Plan")
@@ -78,6 +78,4 @@ with col2:
         st.write("Email feature coming soon!")  # Placeholder for email functionality
 with col3:
     if st.button("Start New Calculation"):
-        reset_calculation()  # Resets the input fields
-
-
+        st.experimental_set_query_params()  # Clear query parameters to refresh page
