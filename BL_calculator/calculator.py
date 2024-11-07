@@ -8,7 +8,7 @@ investment_plans = {
     "Three years": {"min_investment": 5000000, "profit_range": (3.0, 3.3)},
 }
 
-# Investment plan duration in months
+# Plan durations in months
 plan_durations = {
     "Six months": 6,
     "One year": 12,
@@ -29,14 +29,18 @@ def calculate_investment(plan, investment_amount, chosen_profit_rate):
     st.write(f"**Total Profit Over {months} Months:** {total_profit:,.2f} PKR")
     st.write(f"**Total Value at Maturity:** {total_value:,.2f} PKR")
 
+# Reset function to clear session state values
+def reset_inputs():
+    st.session_state["plan"] = list(investment_plans.keys())[0]
+    st.session_state["investment_amount"] = 0.0
+    st.session_state["chosen_profit_rate"] = investment_plans[st.session_state["plan"]]["profit_range"][0]
+
+# Initialize session state defaults only if not set
+if "plan" not in st.session_state:
+    reset_inputs()
+
 # Streamlit layout settings
 st.title("Investment Calculator")
-
-# Set default values only on initial load
-if "plan" not in st.session_state:
-    st.session_state.plan = list(investment_plans.keys())[0]
-    st.session_state.investment_amount = 0.0
-    st.session_state.chosen_profit_rate = investment_plans[st.session_state.plan]["profit_range"][0]
 
 # Step 1: Choose investment plan
 st.subheader("Step 1: Choose Your Investment Plan")
@@ -79,7 +83,5 @@ with col2:
 with col3:
     # Reset fields when "Start New Calculation" is clicked
     if st.button("Start New Calculation"):
-        st.session_state.plan = list(investment_plans.keys())[0]
-        st.session_state.investment_amount = 0.0
-        st.session_state.chosen_profit_rate = investment_plans[st.session_state.plan]["profit_range"][0]
+        reset_inputs()
         st.experimental_rerun()  # Refresh the app to show reset values
