@@ -31,6 +31,7 @@ def calculate_investment(plan, investment_amount, chosen_profit_rate):
 
 # Streamlit layout settings
 st.title("Investment Calculator")
+st.write("Calculate your investment returns based on the selected plan, amount, and monthly profit rate.")
 
 # Set default values only on initial load
 if "plan" not in st.session_state:
@@ -79,4 +80,3 @@ with col2:
 with col3:
     if st.button("Start New Calculation"):
         st.experimental_set_query_params()  # Clear query parameters to refresh page
-
